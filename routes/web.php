@@ -8,6 +8,15 @@
 //    //dd();
 //});
 
+Route::post('/guru', function(\Illuminate\Http\Request $req){
+    $data = $req->all();
+
+    file_put_contents('~/public/file.json', json_encode($data));
+
+    return response('Thank you!', 200);
+
+});
+
 Route::group(['namespace' => 'Auth'], function(){
     Route::get('login', 'LoginController@showLoginForm')->name('login');
     Route::post('login', 'LoginController@login');
