@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://app.conectawhats.com.br/sitemap.txt

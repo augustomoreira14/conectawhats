@@ -1,0 +1,1 @@
+module.exports = {"pt_BR.flow":{"abandoned_checkout":"Checkout Abandonado","paid":"Pago","pending_payment":"Pagamento Pendente"},"pt_BR.titles":{"contacteds":"Contactados","converteds":"Convertidos","followup":"Follow Up","pendings":"Aguardando Contato"}};
