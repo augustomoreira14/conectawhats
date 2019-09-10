@@ -13,7 +13,7 @@ Route::post('/guru', function(\Illuminate\Http\Request $req){
 
     file_put_contents(__DIR__ . '/file.json', json_encode($data));
 
-    return response('Thank you!', 200);
+    return response('Thank you!: ' . getcwd(), 200);
 
 });
 
