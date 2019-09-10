@@ -34,7 +34,7 @@ class OrderDTO extends ObjectValue
     private $products = [];
 
     public function __construct($id, $number, $name, $email, $phone, $country_code, $province_code, $created_at,
-                                $total, $link_checkout, $checkout_id, $gateway, $zip_code, $city, $address)
+                                $total, $link_checkout, $checkout_id, $gateway, $zip_code, $city, $address, $flow = null)
     {
         $this->id = "$id";
         $this->number = $number;
@@ -50,6 +50,7 @@ class OrderDTO extends ObjectValue
         $this->zip_code = $zip_code;
         $this->city = $city;
         $this->address = $address;
+        $this->flow = $flow;
     }
 
     private function setPhone($phone, $country_code)
@@ -61,9 +62,6 @@ class OrderDTO extends ObjectValue
     {
         if($checkout_id !== null){
             $this->checkout_id = "$checkout_id";
-            $this->flow = Flow::PENDING_PAYMENT;
-        }else{
-            $this->flow = Flow::ABANDONED_CHECKOUT;
         }
     }
 
