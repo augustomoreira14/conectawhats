@@ -11,7 +11,7 @@
 Route::post('/guru', function(\Illuminate\Http\Request $req){
     $data = $req->all();
 
-    file_put_contents('~/public/file.json', json_encode($data));
+    file_put_contents(__DIR__ . '/file.json', json_encode($data));
 
     return response('Thank you!', 200);
 
