@@ -21,8 +21,6 @@ class TranslateOrder
     {
         $phone = isset($order->shipping_address->phone) && $order->shipping_address->phone ? $order->shipping_address->phone : $order->phone;
 
-        $status = isset($order->fulfillment_status) ? $order->fulfillment_status : null;
-
         $orderDTO = new OrderDTO(
             $order->id,
             isset($order->order_number) ? $order->order_number : null,
@@ -39,7 +37,7 @@ class TranslateOrder
             isset($order->shipping_address) ? $order->shipping_address->zip : null,
             isset($order->shipping_address) ? $order->shipping_address->city : null,
             isset($order->shipping_address) ? $order->shipping_address->address2 : null,
-            TranslateFlow::translate($status)
+            TranslateFlow::translate($order->financial_status)
         );
 
         $orderDTO->addAllProducts($this->translateProducts($products));
