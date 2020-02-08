@@ -10,7 +10,7 @@ use App\ConectaWhats\SideDish\Infrastructure\Services\Gateway\AbstractGateway;
  *
  * @author augus
  */
-class GatewayService 
+class GatewayService
 {
     public function createGateway($type, $cliente_id, $token, $store_id)
     {
@@ -38,17 +38,20 @@ class GatewayService
 
         $serviceGateway = AbstractGateway::factory($gateway);
 
-        return $serviceGateway->getLinkBoleto($order->checkout_id);
+        return $serviceGateway->getLinkBoleto($order);
     }
 
     protected function gateway($type, $store_id)
     {
-        $gateway = Gateway::where('type', $type)
-                ->where('store_id', $store_id)
-                ->first();
+        $gateway = Gateway::firstOrNew([
+            'type' => $type,
+            'store_id' => $store_id
+        ]);
+
         if(!$gateway){
             throw new \InvalidArgumentException('Gateway not found');
         }
+
         return $gateway;
     }
 }

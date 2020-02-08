@@ -14,6 +14,7 @@ use App\ConectaWhats\SideDish\Domain\Models\Gateway\Type;
 use App\ConectaWhats\SideDish\Infrastructure\Services\Gateway\Excepetions\GatewayNotFound;
 use App\ConectaWhats\SideDish\Infrastructure\Services\Gateway\Interfaces\MercadoPagoAdapter;
 use App\ConectaWhats\SideDish\Infrastructure\Services\Gateway\Interfaces\Gateway as IGateway;
+use App\ConectaWhats\SideDish\Infrastructure\Services\Gateway\Interfaces\UpnidAdapter;
 
 abstract class AbstractGateway
 {
@@ -22,6 +23,8 @@ abstract class AbstractGateway
         switch ($gateway->type){
             case Type::MERCADO_PAGO:
                 return new MercadoPagoAdapter($gateway->cliente_id, $gateway->token);
+            case Type::UPNID:
+                return new UpnidAdapter();
             default:
                 throw new GatewayNotFound();
         }

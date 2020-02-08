@@ -3,6 +3,7 @@
 namespace App\ConectaWhats\SideDish\Infrastructure\Services\Shopify;
 
 use App\ConectaWhats\SideDish\Domain\Models\ShopService;
+use App\ConectaWhats\SideDish\Infrastructure\Services\OrderDTO;
 use Oseintow\Shopify\Facades\Shopify;
 use App\ConectaWhats\SideDish\Domain\Models\Order\Flow;
 use Illuminate\Support\Facades\Log;
@@ -17,16 +18,16 @@ class ShopifyAdapter implements ShopService
     private $translateOrder;
     private static $instance;
 
-    public function __construct($shop, $token) 
+    public function __construct($shop, $token)
     {
         $this->shopifyService = Shopify::setShopUrl($shop)
                                 ->setAccessToken($token);
-        
+
         $this->translateOrder = new TranslateOrder();
-        
+
     }
-    
-    public function getInfo() 
+
+    public function getInfo()
     {
         $info = $this->shopifyService->get('admin/shop.json');
         return (object) [
@@ -42,14 +43,14 @@ class ShopifyAdapter implements ShopService
         }else{
             $orders = $this->getResource('admin/orders.json', $query);
         }
-        
+
         $ordersParsed = [];
         foreach($orders as $order){
             try {
                 $ordersParsed[] = $this->parseOrder($order);
             } catch (\Exception $ex) {
                 Log::alert('Get customers: ' . $ex->getMessage());
-            }     
+            }
         }
         return $ordersParsed;
     }
@@ -58,21 +59,22 @@ class ShopifyAdapter implements ShopService
     {
         return $this->shopifyService->get($endpoint, $query);
     }
-    
-    public function getOrder($id) 
+
+    public function getOrder($id)
     {
-
-        $order = $this->shopifyService->get("admin/orders/{$id}.json");
-
-        return $this->parseOrder((object) $order->all());
-        
+        return $this->parseOrder($this->getOrderShop($id));
     }
 
-    public function parseOrder($order)
+    public function getOrderShop($id)
+    {
+        return (object) $this->shopifyService->get("admin/orders/{$id}.json");
+    }
+
+    public function parseOrder($order) : OrderDTO
     {
         return $this->translateOrder->translate($order, $this->getProducts($order));
     }
-    
+
     protected function getProducts($order)
     {
         $ids = [];
@@ -81,7 +83,7 @@ class ShopifyAdapter implements ShopService
         }
 
         $implode = implode(",", $ids);
-      
+
         return $this->shopifyService->get('admin/products.json', [
             'ids' => $implode
         ]);
@@ -102,22 +104,22 @@ class ShopifyAdapter implements ShopService
     public function getChargeService()
     {
         return new ChargeService($this->shopifyService);
-    }    
+    }
 
     public static function getUrlInstall($shop, $redirect_url)
     {
         $shopify = Shopify::setShopUrl($shop);
-        
+
         $scope = ["read_products","read_orders", "read_checkouts", "read_customers"];
-        
+
         return $shopify->getAuthorizeUrl($scope,$redirect_url);
     }
-    
+
     public static function getToken($shop, $code)
     {
         return Shopify::setShopUrl($shop)->getAccessToken($code);
     }
-    
+
     public static function getInstance($shop, $token)
     {
         if(!self::$instance){

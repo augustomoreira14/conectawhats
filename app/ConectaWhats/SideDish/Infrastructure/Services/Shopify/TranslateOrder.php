@@ -15,9 +15,9 @@ use Carbon\Carbon;
  *
  * @author augus
  */
-class TranslateOrder 
+class TranslateOrder
 {
-    public function translate($order, $products)
+    public function translate($order, $products) : OrderDTO
     {
         $phone = isset($order->shipping_address->phone) && $order->shipping_address->phone ? $order->shipping_address->phone : $order->phone;
 
@@ -44,14 +44,14 @@ class TranslateOrder
 
         return $orderDTO;
     }
-    
+
     protected function translateProducts($products)
     {
         $productsDTO = [];
         foreach($products as $product){
             $productsDTO[] = new ProductDTO($product->id, $product->title, $product->image->src);
         }
-        
+
         return $productsDTO;
     }
 }

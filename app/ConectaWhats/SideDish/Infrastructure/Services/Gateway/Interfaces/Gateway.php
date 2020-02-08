@@ -1,23 +1,16 @@
 <?php
 
 namespace App\ConectaWhats\SideDish\Infrastructure\Services\Gateway\Interfaces;
+use App\ConectaWhats\SideDish\Domain\Models\Order\Order;
+
 /**
  * Description of Gateway
  *
  * @author augus
  */
-abstract class Gateway 
+abstract class Gateway
 {
-    protected $clienteId;
-    protected $token;
-    
-    public function __construct($clienteId, $token) 
-    {
-        $this->clienteId = $clienteId;
-        $this->token = $token;
-    }
-
     abstract public function testConnection();
 
-    abstract public function getLinkBoleto($reference_external);
+    abstract public function getLinkBoleto(Order $order);
 }

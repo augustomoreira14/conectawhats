@@ -6,14 +6,14 @@ namespace App\ConectaWhats\SideDish\Infrastructure\Services\Gateway\Interfaces;
  *
  * @author augus
  */
-class PagSeguroAdapter extends Gateway 
+class PagSeguroAdapter extends Gateway
 {
-    public function __construct($clienteId, $token) 
+    public function __construct($clienteId, $token)
     {
-        parent::__construct($clienteId, $token);
+        //parent::__construct($clienteId, $token);
     }
-    
-    public function getLinkBoleto($reference_external) 
+
+    public function getLinkBoleto($reference_external)
     {
     }
 

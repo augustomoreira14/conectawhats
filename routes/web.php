@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Log;
 //Route::get('/teste', function(){
 //    $store = \App\ConectaWhats\SideDish\Domain\Models\Store\Store::find(2);
 //    $shopify = \Oseintow\Shopify\Facades\Shopify::setShopUrl($store->shop)
@@ -8,13 +9,19 @@
 //    //dd();
 //});
 
-Route::post('/guru', function(\Illuminate\Http\Request $req){
+Route::post('/upnid', function(\Illuminate\Http\Request $req){
+
     $data = $req->all();
 
-    file_put_contents(getcwd() . '/file.json', json_encode($data));
+    Log::info(json_encode($data));
 
-    return response('Thank you!', 200);
+    return response('Ok!', 200);
+});
 
+Route::get('/upnid', function(){
+    Log::info('get upnid');
+
+    return response('Ok!', 200);
 });
 
 Route::group(['namespace' => 'Auth'], function(){

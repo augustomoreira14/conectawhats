@@ -14,6 +14,7 @@ use App\ConectaWhats\SideDish\Enum;
 class Type extends Enum
 {
     const MERCADO_PAGO = 'mercado_pago';
+    const UPNID = 'Upnid Boleto';
     //const PAGSEGURO = 'pagseguro';
 
     public static function all()
